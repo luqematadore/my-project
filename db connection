@@ -1,0 +1,14 @@
+<?php
+// Database credentials
+$host = 'sql207.infinityfree.com'; // Your database host
+$dbname = 'if0_35925202_wp84'; // Your database name
+$user = 'if0_35925202'; // Your database username
+$pass = '6qDg8Uok97OU'; // Your database password
+
+try {
+    // Create a new PDO instance
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+    echo "Connected successfully";
+} catch(PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+}
