@@ -27,3 +27,56 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+/*trigger column meta_value data insert into wb_ebss_part_1 columns ( email address , .. )*/
+
+DELIMITER //
+
+CREATE TRIGGER insert_into_wp_ebss_part_1
+AFTER INSERT ON wp_metforms
+FOR EACH ROW
+BEGIN
+    DECLARE startPos INT;
+    DECLARE endPos INT;
+    DECLARE keyLength INT;
+    DECLARE valLength INT;
+    DECLARE keyValue VARCHAR(255);
+    DECLARE keyName VARCHAR(255);
+    DECLARE valueStartPos INT;
+    DECLARE valueEndPos INT;
+
+    -- Find the position of the first occurrence of 's:' (serialized data)
+    SET startPos = LOCATE('s:', NEW.meta_value);
+
+    -- Loop until startPos is 0, meaning no more serialized data found
+    WHILE startPos != 0 DO
+        -- Find the position of the first ':' after 's:'
+        SET endPos = LOCATE(':', NEW.meta_value, startPos + 2);
+        -- Extract the length of the serialized data
+        SET keyLength = SUBSTRING(NEW.meta_value, startPos + 2, endPos - startPos - 2);
+
+        -- Find the position of the first '"' after ':'
+        SET valueStartPos = endPos + 2;
+        SET valueEndPos = LOCATE('"', NEW.meta_value, valueStartPos);
+        -- Extract the serialized data
+        SET keyValue = SUBSTRING(NEW.meta_value, valueStartPos, valueEndPos - valueStartPos);
+
+        -- Find the position of the next 's:'
+        SET startPos = LOCATE('s:', NEW.meta_value, valueEndPos);
+
+        -- Extract key name and value
+        SET keyName = SUBSTRING_INDEX(keyValue, '";s:', 1);
+        SET keyValue = SUBSTRING_INDEX(keyValue, '";s:', -1);
+
+        -- Insert into wp_ebss_part_1 table
+        CASE keyName
+            WHEN 'email_address' THEN
+                INSERT INTO wp_ebss_part_1 (user_id, email_address_column)
+                VALUES (NEW.user_id, keyValue);
+            -- Add additional cases for other key names as needed
+        END CASE;
+    END WHILE;
+END //
+
+DELIMITER ;
+
