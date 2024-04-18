@@ -1,0 +1,60 @@
+<?php
+//Establish a connection to your MySQL database
+$servername = "sql207.infinityfree.com"; // Change this to your database server
+$username = "if0_35925202"; // Change this to your database username
+$password = "6qDg8Uok97OU"; // Change this to your database password
+$dbname = "if0_35925202_wp84"; // Change this to your database name
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Query to retrieve user_id values from wp_metform table
+$sql = "SELECT user_id, meta_value FROM wp_metform";
+$result = $conn->query($sql);
+
+// Check if any rows were returned
+if ($result->num_rows > 0) {
+    // Loop through each row
+    while($row = $result->fetch_assoc()) {
+        // Store the user_id and meta_value in variables
+        $user_id = $row["user_id"];
+        $meta_value = $row["meta_value"];
+
+        // Unserialize the meta_value string to extract individual values
+        $meta_array = unserialize($meta_value);
+
+        // Extract values from the array
+        $email_address = $meta_array['email_address'];
+        $full_name = $meta_array['full_name'];
+		$first_name = $meta_array['first_name'];
+		$last_name = $meta_array['last_name'];
+		$staff_ID = $meta_array['staff_ID'];
+		$clientName = $meta_array['clientName'];
+		$company_email = $meta_array['compamy_email'];
+		$job_title = $meta_array['job_title'];
+		$gender_type = $meta_array['gender_type'];
+		$work_location = $meta_array['work_location'];
+		$department = $meta_array['department'];
+		$work_section = $meta_array['work_section'];
+		$year_service = $meta_array['year_service'];
+        // Extract other values in a similar way
+
+        // Now you can insert these values into wp_ebss_part_1 table
+        $insert_sql = "INSERT INTO wp_ebss_part_1 (user_id, email_address, full_name, first_name, last_name, staff_ID, clientName, compamy_email, job_title, gender_type, work_location, department, work_section, year_service) VALUES ('$user_id', '$email_address', '$full_name', '$first_name', '$last_name', '$staff_ID', '$clientName', '$company_email', '$job_title', '$gender_type', '$work_location', '$department', '$work_section', '$year_service')";
+        if ($conn->query($insert_sql) === TRUE) {
+            echo "Values inserted successfully for User ID: " . $user_id . "<br>";
+        } else {
+            echo "Error inserting values: " . $conn->error . "<br>";
+        }
+    }
+} else {
+    echo "0 results";
+}
+
+// Close the connection
+$conn->close();
