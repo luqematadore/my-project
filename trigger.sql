@@ -1,3 +1,4 @@
+/* trigger for same data return */
 DELIMITER //
 CREATE TRIGGER after_insert_wpbk_postmeta_specific_key
 AFTER INSERT
