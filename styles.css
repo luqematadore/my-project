@@ -1,0 +1,56 @@
+.we-heading span{
+	color:#4C1130; 
+   font-weight: 600;
+}
+
+.login-form .um-form {
+	text-align: ;
+}
+.login-form .um-login {
+	margin-bottom: 0 !important;
+}
+.login-form .um-misc-with-img {
+	border-bottom: 3px solid #6FA8DC;
+}
+.login-form .um-misc-ul {
+	list-style: none;
+	margin:0;
+}
+.login-form .um-misc-ul li a {
+	display: block;
+	width: 100%;
+	color: #FFCB00;
+	
+}
+.login-form .um-field-checkbox {
+	margin-bottom: 20px;
+	color:white !important;
+}
+.login-form span.um-field-checkbox-option {
+	color:white !important;
+	font-weight: 400 !important;
+	font-family:Poppins !important;
+	font-size:14px !important;
+}
+.login-form input.um-form-field{
+	padding:23px !important;
+	border-radius:5px;
+	
+}
+.login-form .um-button {
+	width: 100% !important;
+	background: #6FA8DC !important;
+	color: #ffffff !important;
+	font-weight: 600 !important;
+	font-family:Poppins !important;
+	font-size:18px !important;
+}
+a.um-link-alt {
+	color: #EEEEEE !important;
+}
+
+
+.um:not(.um-admin) * {
+    -webkit-font-smoothing: antialiased !important;
+    color: #FFFFFF !important;
+}
