@@ -83,28 +83,67 @@ DELIMITER ;
 /* trigger to update row in table wp_ebss_part_1 */
 
 DELIMITER //
+
 CREATE TRIGGER update_wp_metforms
 AFTER INSERT ON wp_ebss_part_1
 FOR EACH ROW
 BEGIN
-    UPDATE wp_metforms
-    SET 
-        email_address = NEW.email_address,
-        full_name = NEW.full_name,
-        first_name = NEW.first_name,
-        last_name = NEW.last_name,
-        staff_ID = NEW.staff_ID,
-        clientName = NEW.clientName,
-        company_email = NEW.company_email,
-        job_title = NEW.job_title,
-        gender_type = NEW.gender_type,
-        work_location = NEW.work_location,
-        department = NEW.department,
-        work_section = NEW.work_section,
-        year_service = NEW.year_service
+    DECLARE serialized_data VARCHAR(255);
+    DECLARE email_address VARCHAR(255);
+    DECLARE full_name VARCHAR(255);
+    DECLARE first_name VARCHAR(255);
+    DECLARE last_name VARCHAR(255);
+    DECLARE staff_ID VARCHAR(255);
+    DECLARE clientName VARCHAR(255);
+    DECLARE company_email VARCHAR(255);
+    DECLARE job_title VARCHAR(255);
+    DECLARE gender_type VARCHAR(255);
+    DECLARE work_location VARCHAR(255);
+    DECLARE department VARCHAR(255);
+    DECLARE work_section VARCHAR(255);
+    DECLARE year_service VARCHAR(255);
+
+    -- Get the serialized data for the inserted row
+    SELECT meta_value INTO serialized_data
+    FROM wp_metforms
+    WHERE user_id = NEW.user_id;
+
+    -- Extract values using SUBSTRING_INDEX
+    SET email_address = SUBSTRING_INDEX(SUBSTRING_INDEX(serialized_data, 's:13:"email_address";s:', -1), ':"', 1);
+    SET full_name = SUBSTRING_INDEX(SUBSTRING_INDEX(serialized_data, 's:9:"full_name";s:', -1), ':"', 1);
+    SET first_name = SUBSTRING_INDEX(SUBSTRING_INDEX(serialized_data, 's:10:"first_name";s:', -1), ':"', 1);
+    SET last_name = SUBSTRING_INDEX(SUBSTRING_INDEX(serialized_data, 's:9:"last_name";s:', -1), ':"', 1);
+    SET staff_ID = SUBSTRING_INDEX(SUBSTRING_INDEX(serialized_data, 's:8:"staff_ID";s:', -1), ':"', 1);
+    SET clientName = SUBSTRING_INDEX(SUBSTRING_INDEX(serialized_data, 's:10:"clientName";s:', -1), ':"', 1);
+    SET company_email = SUBSTRING_INDEX(SUBSTRING_INDEX(serialized_data, 's:13:"company_email";s:', -1), ':"', 1);
+    SET job_title = SUBSTRING_INDEX(SUBSTRING_INDEX(serialized_data, 's:9:"job_title";s:', -1), ':"', 1);
+    SET gender_type = SUBSTRING_INDEX(SUBSTRING_INDEX(serialized_data, 's:11:"gender_type";s:', -1), ':"', 1);
+    SET work_location = SUBSTRING_INDEX(SUBSTRING_INDEX(serialized_data, 's:13:"work_location";s:', -1), ':"', 1);
+    SET department = SUBSTRING_INDEX(SUBSTRING_INDEX(serialized_data, 's:10:"department";s:', -1), ':"', 1);
+    SET work_section = SUBSTRING_INDEX(SUBSTRING_INDEX(serialized_data, 's:12:"work_section";s:', -1), ':"', 1);
+    SET year_service = SUBSTRING_INDEX(SUBSTRING_INDEX(serialized_data, 's:12:"year_service";s:', -1), ':"', 1);
+
+    -- Update wp_ebss_part_1 with extracted values
+    UPDATE wp_ebss_part_1
+    SET
+        email_address = email_address,
+        full_name = full_name,
+        first_name = first_name,
+        last_name = last_name,
+        staff_ID = staff_ID,
+        clientName = clientName,
+        company_email = company_email,
+        job_title = job_title,
+        gender_type = gender_type,
+        work_location = work_location,
+        department = department,
+        work_section = work_section,
+        year_service = year_service
     WHERE user_id = NEW.user_id;
 END;
 //
+
 DELIMITER ;
+
 
 
