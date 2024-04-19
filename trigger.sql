@@ -88,6 +88,37 @@ CREATE TRIGGER update_wp_metforms
 AFTER INSERT ON wp_ebss_part_1
 FOR EACH ROW
 BEGIN
+    UPDATE wp_metforms
+    SET 
+        email_address = NEW.email_address,
+        full_name = NEW.full_name,
+        first_name = NEW.first_name,
+        last_name = NEW.last_name,
+        staff_ID = NEW.staff_ID,
+        clientName = NEW.clientName,
+        company_email = NEW.company_email,
+        job_title = NEW.job_title,
+        gender_type = NEW.gender_type,
+        work_location = NEW.work_location,
+        department = NEW.department,
+        work_section = NEW.work_section,
+        year_service = NEW.year_service
+    WHERE user_id = NEW.user_id;
+END;
+//
+
+DELIMITER ;
+
+
+
+/* trigger to update row in table wp_ebss_part_1 */
+
+DELIMITER //
+
+CREATE TRIGGER update_wp_metforms
+AFTER INSERT ON wp_ebss_part_1
+FOR EACH ROW
+BEGIN
     DECLARE serialized_data VARCHAR(255);
     DECLARE email_address TEXT;
     DECLARE full_name TEXT;
