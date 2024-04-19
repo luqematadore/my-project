@@ -89,19 +89,19 @@ AFTER INSERT ON wp_ebss_part_1
 FOR EACH ROW
 BEGIN
     DECLARE serialized_data VARCHAR(255);
-    DECLARE email_address VARCHAR(255);
-    DECLARE full_name VARCHAR(255);
-    DECLARE first_name VARCHAR(255);
-    DECLARE last_name VARCHAR(255);
-    DECLARE staff_ID VARCHAR(255);
-    DECLARE clientName VARCHAR(255);
-    DECLARE company_email VARCHAR(255);
-    DECLARE job_title VARCHAR(255);
-    DECLARE gender_type VARCHAR(255);
-    DECLARE work_location VARCHAR(255);
-    DECLARE department VARCHAR(255);
-    DECLARE work_section VARCHAR(255);
-    DECLARE year_service VARCHAR(255);
+    DECLARE email_address LONGTEXT;
+    DECLARE full_name LONGTEXT;
+    DECLARE first_name LONGTEXT;
+    DECLARE last_name LONGTEXT;;
+    DECLARE staff_ID LONGTEXT;
+    DECLARE clientName LONGTEXT;
+    DECLARE company_email LONGTEXT;
+    DECLARE job_title LONGTEXT;
+    DECLARE gender_type LONGTEXT;
+    DECLARE work_location LONGTEXT;
+    DECLARE department LONGTEXT;
+    DECLARE work_section LONGTEXT;
+    DECLARE year_service LONGTEXT;
 
     -- Get the serialized data for the inserted row
     SELECT meta_value INTO serialized_data
