@@ -15,4 +15,4 @@ SELECT
    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:12:"work_section";s:20:"', -1), '";s:12:"year_service"', 1), '"', -1) AS work_section,
    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:12:"year_service";s:12:"', -1), '";}', 1), '"', -1) AS year_service
 FROM wp_metforms m
-WHERE m.user_id = 9398;
+WHERE m.user_id = 9402;
