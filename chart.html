@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poor Ergonomics Body Symptom Results</title>
+</head>
+<body>
+
+<h2 style="text-align: center; color: #333; font-family: Poppins, Montserrat; font-size: 20px;">STATISTICAL VIEW OF BODY SYMPTOM AREA EFFECTED THE MOST AMONG EMPLOYEes</h2>
+<canvas id="pieChart" width="400" height="400"></canvas>
+
+<script>
+// Data for the pie chart
+var data = [
+  { label: 'Neck Pain', value: 30 },
+  { label: 'Back Pain', value: 25 },
+  { label: 'Shoulder Pain', value: 20 },
+  { label: 'Wrist Pain', value: 15 },
+  { label: 'Other', value: 10 }
+];
+
+// Predefined colors for the slices
+var colors = ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99', '#c2c2f0'];
+
+// Canvas setup
+var canvas = document.getElementById('pieChart');
+var ctx = canvas.getContext('2d');
+var centerX = canvas.width / 2;
+var centerY = canvas.height / 2;
+var radius = Math.min(centerX, centerY) * 0.8;
+
+// Draw the pie chart
+var total = data.reduce((acc, dataPoint) => acc + dataPoint.value, 0);
+var startAngle = -Math.PI / 2;
+
+data.forEach((dataPoint, index) => {
+  var sliceAngle = (Math.PI * 2 * dataPoint.value) / total;
+  var percentage = ((dataPoint.value / total) * 100).toFixed(2);
+  ctx.fillStyle = colors[index % colors.length]; // Use predefined colors
+  ctx.beginPath();
+  ctx.moveTo(centerX, centerY);
+  ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+  ctx.closePath();
+  ctx.fill();
+
+  // Draw the label
+  var midAngle = startAngle + sliceAngle / 2;
+  var labelX = centerX + (radius * 0.7) * Math.cos(midAngle);
+  var labelY = centerY + (radius * 0.7) * Math.sin(midAngle);
+  ctx.fillStyle = 'black';
+  ctx.font = '14px Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText(`${dataPoint.label}: ${percentage}%`, labelX, labelY);
+
+  startAngle += sliceAngle;
+});
+</script>
+
+</body>
+</html>
