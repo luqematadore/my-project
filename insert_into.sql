@@ -20,7 +20,7 @@ FROM wp_metforms m
 WHERE m.user_id = 9402;
 
 /* PART 2_1 */
-INSERT INTO wp_ebss_part_2 (user_id, laptop, standardPC, external, dockingNE, dockingE, standardMW, standardMNW, ErgomouseNW, ErgomouseW, shortkey, longkey, riserA, riserNA, BagA, BagB, BagC, mousepadA, 
+INSERT INTO wp_ebss_part_2_1 (user_id, laptop, standardPC, external, dockingNE, dockingE, standardMW, standardMNW, ErgomouseNW, ErgomouseW, shortkey, longkey, riserA, riserNA, BagA, BagB, BagC, mousepadA, 
    mousepadB, wristpadA, wristpadB)
 SELECT 
     m.user_id,
