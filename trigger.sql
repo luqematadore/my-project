@@ -5,79 +5,89 @@ AFTER INSERT
 ON wpbk_postmeta FOR EACH ROW
 BEGIN
     IF NEW.meta_key = 'metform_entries__form_data' THEN
-        INSERT INTO wp_metforms (meta_id, post_id, meta_value, datetime)  /* Adding Date column */
-        VALUES (NEW.meta_id, NEW.post_id, NEW.meta_value, NOW());   /* Adding NOW() to insert current date */
+        INSERT INTO wp_metforms (meta_id, post_id, meta_value)
+        VALUES (NEW.meta_id, NEW.post_id, NEW.meta_value);
     END IF;
 END; //
-DELIMITER ;
-/*trigger for return to all table parts*/
-
-DELIMITER $$
-
-CREATE TRIGGER insert_into_partitions
-AFTER INSERT ON wp_metforms
-FOR EACH ROW
-BEGIN
-    INSERT IGNORE INTO wp_ebss_part_1 (column1, column2) VALUES (NEW.column1, NEW.column2);
-    INSERT IGNORE INTO wp_ebss_part_2_1 (column1, column2) VALUES (NEW.column1, NEW.column2);
-    INSERT IGNORE INTO wp_ebss_part_2_1 (column1, column2) VALUES (NEW.column1, NEW.column2);
-    INSERT IGNORE INTO wp_ebss_part_3 (column1, column2) VALUES (NEW.column1, NEW.column2);
-    INSERT IGNORE INTO wp_ebss_part_4 (column1, column2) VALUES (NEW.column1, NEW.column2);
-END$$
-
 DELIMITER ;
 
 /*trigger column meta_value data insert into wb_ebss_part_1 columns ( email address , .. )*/
 
 DELIMITER //
-
-CREATE TRIGGER insert_into_wp_ebss_part_1
-AFTER INSERT ON wp_metforms
-FOR EACH ROW
+CREATE TRIGGER after_insert_wp_metforms
+AFTER INSERT
+ON wp_metforms FOR EACH ROW
 BEGIN
-    DECLARE startPos INT;
-    DECLARE endPos INT;
-    DECLARE keyLength INT;
-    DECLARE valLength INT;
-    DECLARE keyValue VARCHAR(255);
-    DECLARE keyName VARCHAR(255);
-    DECLARE valueStartPos INT;
-    DECLARE valueEndPos INT;
+    DECLARE user_id VARCHAR(255);
+    DECLARE email_address VARCHAR(255);
+    DECLARE full_name VARCHAR(255);
+    DECLARE first_name VARCHAR(255);
+    DECLARE last_name VARCHAR(255);
+    DECLARE staff_ID VARCHAR(50);
+    DECLARE clientName VARCHAR(255);
+    DECLARE company_email VARCHAR(255);
+    DECLARE job_title VARCHAR(255);
+    DECLARE gender_type VARCHAR(50);
+    DECLARE work_location VARCHAR(255);
+    DECLARE department VARCHAR(255);
+    DECLARE work_section VARCHAR(255);
+    DECLARE year_service VARCHAR(50);
+    
+    /* Initialize variables */
+    SET user_id = NULL;
+    SET email_address = NULL;
+    SET full_name = NULL;
+    SET first_name = NULL;
+    SET last_name = NULL;
+    SET staff_ID = NULL;
+    SET clientName = NULL;
+    SET company_email = NULL;
+    SET job_title = NULL;
+    SET gender_type = NULL;
+    SET work_location = NULL;
+    SET department = NULL;
+    SET work_section = NULL;
+    SET year_service = NULL;
 
-    -- Find the position of the first occurrence of 's:' (serialized data)
-    SET startPos = LOCATE('s:', NEW.meta_value);
-
-    -- Loop until startPos is 0, meaning no more serialized data found
-    WHILE startPos != 0 DO
-        -- Find the position of the first ':' after 's:'
-        SET endPos = LOCATE(':', NEW.meta_value, startPos + 2);
-        -- Extract the length of the serialized data
-        SET keyLength = SUBSTRING(NEW.meta_value, startPos + 2, endPos - startPos - 2);
-
-        -- Find the position of the first '"' after ':'
-        SET valueStartPos = endPos + 2;
-        SET valueEndPos = LOCATE('"', NEW.meta_value, valueStartPos);
-        -- Extract the serialized data
-        SET keyValue = SUBSTRING(NEW.meta_value, valueStartPos, valueEndPos - valueStartPos);
-
-        -- Find the position of the next 's:'
-        SET startPos = LOCATE('s:', NEW.meta_value, valueEndPos);
-
-        -- Extract key name and value
-        SET keyName = SUBSTRING_INDEX(keyValue, '";s:', 1);
-        SET keyValue = SUBSTRING_INDEX(keyValue, '";s:', -1);
-
-        -- Insert into wp_ebss_part_1 table
-        CASE keyName
-            WHEN 'email_address' THEN
-                INSERT INTO wp_ebss_part_1 (user_id, email_address_column)
-                VALUES (NEW.user_id, keyValue);
-            -- Add additional cases for other key names as needed
+    /* Extract values from serialized data */
+    SET @serialized_data = NEW.meta_value;
+    SET @serialized_data_length = CHAR_LENGTH(@serialized_data);
+    SET @pos = 1;
+    WHILE @pos < @serialized_data_length DO
+        SET @key_start = LOCATE('"', @serialized_data, @pos) + 1;
+        SET @key_end = LOCATE('"', @serialized_data, @key_start);
+        SET @key = SUBSTRING(@serialized_data, @key_start, @key_end - @key_start);
+        SET @value_start = LOCATE('"', @serialized_data, @key_end + 3) + 1;
+        SET @value_end = LOCATE('"', @serialized_data, @value_start);
+        SET @value = SUBSTRING(@serialized_data, @value_start, @value_end - @value_start);
+        
+        /* Assign values to appropriate variables */
+        CASE @key
+            WHEN 'user_id' THEN SET user_id = @value;
+            WHEN 'email_address' THEN SET email_address = @value;
+            WHEN 'full_name' THEN SET full_name = @value;
+            WHEN 'first_name' THEN SET first_name = @value;
+            WHEN 'last_name' THEN SET last_name = @value;
+            WHEN 'staff_ID' THEN SET staff_ID = @value;
+            WHEN 'clientName' THEN SET clientName = @value;
+            WHEN 'company_email' THEN SET company_email = @value;
+            WHEN 'job_title' THEN SET job_title = @value;
+            WHEN 'gender_type' THEN SET gender_type = @value;
+            WHEN 'work_location' THEN SET work_location = @value;
+            WHEN 'department' THEN SET department = @value;
+            WHEN 'work_section' THEN SET work_section = @value;
+            WHEN 'year_service' THEN SET year_service = @value;
         END CASE;
+        
+        SET @pos = @value_end + 2;
     END WHILE;
-END //
-
+    
+    /* Insert values into wp_ebss_part_1 */
+    INSERT INTO wp_ebss_part_1 (user_id, email_address, full_name, first_name, last_name, staff_ID, clientName, company_email, job_title, gender_type, work_location, department, work_section, year_service)
+    VALUES (user_id, email_address, full_name, first_name, last_name, staff_ID, clientName, company_email, job_title, gender_type, work_location, department, work_section, year_service);
+END; //
 DELIMITER ;
+
 
 /* trigger to update row in table wp_ebss_part_1 */
 
