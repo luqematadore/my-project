@@ -15,7 +15,7 @@ SELECT
    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:13:"work_location";s:6:"', -1), '";s:10:"department"', 1), '"', -1) AS work_location,
    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:10:"department";s:16:"', -1), '";s:12:"work_section"', 1), '"', -1) AS department,
    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:12:"work_section";s:20:"', -1), '";s:12:"year_service"', 1), '"', -1) AS work_section,
-   SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:12:"year_service";s:12:"', -1), '";}', 1), '"', -1) AS year_service
+   SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:12:"year_service";s:12:"', -1), '";s:6:"laptop"', 1), '"', -1) AS year_service
 FROM wp_metforms m
 WHERE m.user_id = 9402;
 
@@ -43,7 +43,7 @@ SELECT
     SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:9:"mousepadA";s:', -1), '";s:9:"mousepadB"', 1), '"', -1) AS mousepadA,
     SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:9:"mousepadB";s:', -1), '";s:9:"wristpadA"', 1), '"', -1) AS mousepadB,
     SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:9:"wristpadA";s:', -1), '";s:9:"wristpadB"', 1), '"', -1) AS wristpadA,
-    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:9:"wristpadB";s:', -1), '";}', 1), '"', -1) AS wristpadB
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:9:"wristpadB";s:', -1), '";s:7:"laptop2"'}, 1), '"', -1) AS wristpadB
 FROM wp_metforms m
 WHERE m.user_id = 9398;
 
