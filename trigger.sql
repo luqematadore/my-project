@@ -5,12 +5,11 @@ AFTER INSERT
 ON wpbk_postmeta FOR EACH ROW
 BEGIN
     IF NEW.meta_key = 'metform_entries__form_data' THEN
-        INSERT INTO wp_metforms (meta_id, post_id, meta_value)
-        VALUES (NEW.meta_id, NEW.post_id, NEW.meta_value);
+        INSERT INTO wp_metforms (meta_id, post_id, meta_value, datetime)  /* Adding Date column */
+        VALUES (NEW.meta_id, NEW.post_id, NEW.meta_value, NOW());   /* Adding NOW() to insert current date */
     END IF;
 END; //
 DELIMITER ;
-
 /*trigger for return to all table parts*/
 
 DELIMITER $$
