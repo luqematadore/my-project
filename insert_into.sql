@@ -47,3 +47,30 @@ SELECT
 FROM wp_metforms m
 WHERE m.user_id = 9398;
 
+/* PART 2_2 */
+INSERT INTO wp_ebss_part_2_2 (user_id, laptop2, standardPC2, external2, dockingNE2, dockingE2, standardMW2, standardMNW2, ErgomouseNW2, ErgomouseW2, shortkey2, longkey2, riserA2, riserNA2, BagA2, BagB2, BagC2, mousepadA2, mousepadB2, wristpadA2, wristpadB2)
+SELECT 
+    m.user_id,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:7:"laptop2";s:', -1), '";s:11:"standardPC2"', 1), '"', -1) AS laptop2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:11:"standardPC2";s:', -1), '";s:9:"external2"', 1), '"', -1) AS standardPC2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:9:"external2";s:', -1), '";s:10:"dockingNE2"', 1), '"', -1) AS external2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:10:"dockingNE2";s:', -1), '";s:9:"dockingE2"', 1), '"', -1) AS dockingNE2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:9:"dockingE2";s:', -1), '";s:11:"standardMW2"', 1), '"', -1) AS dockingE2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:11:"standardMW2";s:', -1), '";s:12:"standardMNW2"', 1), '"', -1) AS standardMW2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:12:"standardMNW2";s:', -1), '";s:12:"ErgomouseNW2"', 1), '"', -1) AS standardMNW2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:12:"ErgomouseNW2";s:', -1), '";s:11:"ErgomouseW2"', 1), '"', -1) AS ErgomouseNW2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:11:"ErgomouseW2";s:', -1), '";s:9:"shortkey2"', 1), '"', -1) AS ErgomouseW2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:9:"shortkey2";s:', -1), '";s:8:"longkey2"', 1), '"', -1) AS shortkey2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:8:"longkey2";s:', -1), '";s:7:"riserA2"', 1), '"', -1) AS longkey2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:7:"riserA2";s:', -1), '";s:8:"riserNA2"', 1), '"', -1) AS riserA2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:8:"riserNA2";s:', -1), '";s:5:"BagA2"', 1), '"', -1) AS riserNA2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:5:"BagA2";s:', -1), '";s:5:"BagB2"', 1), '"', -1) AS BagA2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:5:"BagB2";s:', -1), '";s:5:"BagC2"', 1), '"', -1) AS BagB2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:5:"BagC2";s:', -1), '";s:10:"mousepadA2"', 1), '"', -1) AS BagC2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:10:"mousepadA2";s:', -1), '";s:10:"mousepadB2"', 1), '"', -1) AS mousepadA2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:10:"mousepadB2";s:', -1), '";s:10:"wristpadA2"', 1), '"', -1) AS mousepadB2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:10:"wristpadA2";s:', -1), '";s:10:"wristpadB2"', 1), '"', -1) AS wristpadA2,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:10:"wristpadB2";s:', -1), '";s:7:"headMid"', 1), '"', -1) AS wristpadB2
+FROM wp_metforms m
+WHERE m.user_id = 9398;
+
