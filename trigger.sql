@@ -88,6 +88,57 @@ BEGIN
 END; //
 DELIMITER ;
 
+/* trigger column meta_value data insert into wb_ebss_part_1 columns ( email address , .. ) V2 */
+DELIMITER //
+CREATE TRIGGER before_insert_wp_metforms
+BEFORE INSERT
+ON wp_metforms FOR EACH ROW
+BEGIN
+    DECLARE serialized_data TEXT;
+    DECLARE key_start INT;
+    DECLARE key_end INT;
+    DECLARE value_start INT;
+    DECLARE value_end INT;
+    DECLARE key_name VARCHAR(255);
+    DECLARE key_value VARCHAR(255);
+
+    SET serialized_data = NEW.meta_value;
+
+    WHILE LOCATE('"', serialized_data) > 0 DO
+        SET key_start = LOCATE('"', serialized_data) + 1;
+        SET key_end = LOCATE('"', serialized_data, key_start);
+        SET key_name = SUBSTRING(serialized_data, key_start, key_end - key_start);
+
+        SET value_start = LOCATE('"', serialized_data, key_end + 3) + 1;
+        SET value_end = LOCATE('"', serialized_data, value_start);
+        SET key_value = SUBSTRING(serialized_data, value_start, value_end - value_start);
+
+        CASE key_name
+            WHEN 'user_id' THEN SET @user_id := key_value;
+            WHEN 'email_address' THEN SET @email_address := key_value;
+            WHEN 'full_name' THEN SET @full_name := key_value;
+            WHEN 'first_name' THEN SET @first_name := key_value;
+            WHEN 'last_name' THEN SET @last_name := key_value;
+            WHEN 'staff_ID' THEN SET @staff_ID := key_value;
+            WHEN 'clientName' THEN SET @clientName := key_value;
+            WHEN 'company_email' THEN SET @company_email := key_value;
+            WHEN 'job_title' THEN SET @job_title := key_value;
+            WHEN 'gender_type' THEN SET @gender_type := key_value;
+            WHEN 'work_location' THEN SET @work_location := key_value;
+            WHEN 'department' THEN SET @department := key_value;
+            WHEN 'work_section' THEN SET @work_section := key_value;
+            WHEN 'year_service' THEN SET @year_service := key_value;
+        END CASE;
+
+        SET serialized_data = SUBSTRING(serialized_data, value_end + 2);
+    END WHILE;
+
+    /* Insert values into wp_ebss_part_1 */
+    INSERT INTO wp_ebss_part_1 (user_id, email_address, full_name, first_name, last_name, staff_ID, clientName, company_email, job_title, gender_type, work_location, department, work_section, year_service)
+    VALUES (@user_id, @email_address, @full_name, @first_name, @last_name, @staff_ID, @clientName, @company_email, @job_title, @gender_type, @work_location, @department, @work_section, @year_service);
+END; //
+DELIMITER ;
+
 
 /* trigger to update row in table wp_ebss_part_1 */
 
