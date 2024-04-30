@@ -1,0 +1,6 @@
+ALTER TABLE if0_35925202_mydb .wp_metforms
+ADD CONSTRAINT fk_meta_id
+FOREIGN KEY (meta_id)
+REFERENCES if0_35925202_wp84.wpbk_postmeta(meta_id)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
