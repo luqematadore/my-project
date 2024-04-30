@@ -17,8 +17,8 @@ AFTER INSERT ON if0_35925202_wp84.wpbk_postmeta
 FOR EACH ROW
 BEGIN
     IF NEW.meta_key = 'metform_entries__form_data' THEN
-        INSERT INTO  if0_35925202_mydb.wp_metforms (meta_id, post_id, meta_key, meta_value)
-        VALUES (NEW.meta_id, NEW.post_id, NEW.meta_key, NEW.meta_value);
+        INSERT INTO  if0_35925202_mydb.wp_metforms (meta_id, post_id, meta_value)
+        VALUES (NEW.meta_id, NEW.post_id, NEW.meta_value);
     END IF;
 END//
 DELIMITER ;
