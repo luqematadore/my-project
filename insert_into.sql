@@ -79,3 +79,10 @@ INSERT INTO if0_35925202_mydb .wp_metforms (meta_id, post_id, meta_value)
 SELECT meta_id, post_id, meta_value
 FROM if0_35925202_wp84.wpbk_postmeta
 WHERE meta_key = 'metform_entries__form_data';
+
+/* inserting values from another table and another database with specofic row only */
+INSERT INTO mydb.wp_metforms (meta_id, post_id, meta_value)
+SELECT meta_id, post_id, meta_value
+FROM wp84.wpbk_postmeta
+WHERE meta_key = 'metform_entries__form_data'
+AND meta_id = 12913; 
