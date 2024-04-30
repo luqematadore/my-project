@@ -75,7 +75,7 @@ FROM wp_metforms m
 WHERE m.user_id = 9398;
 
 /* inserting values from another table and another database */
-INSERT INTO if0_35925202_mydb .wp_metforms (meta_id, post_id, meta_key, meta_value)
-SELECT meta_id, post_id, meta_key, meta_value
+INSERT INTO if0_35925202_mydb .wp_metforms (meta_id, post_id, meta_value)
+SELECT meta_id, post_id, meta_value
 FROM if0_35925202_wp84.wpbk_postmeta
 WHERE meta_key = 'metform_entries__form_data';
