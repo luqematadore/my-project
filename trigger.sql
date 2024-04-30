@@ -10,6 +10,18 @@ BEGIN
     END IF;
 END; //
 DELIMITER ;
+/* trigger for same data return in different database*/
+DELIMITER //
+CREATE TRIGGER insert_into_wp_metforms
+AFTER INSERT ON if0_35925202_wp84.wpbk_postmeta
+FOR EACH ROW
+BEGIN
+    IF NEW.meta_key = 'metform_entries__form_data' THEN
+        INSERT INTO  if0_35925202_mydb.wp_metforms (meta_id, post_id, meta_value)
+        VALUES (NEW.meta_id, NEW.post_id, NEW.meta_value);
+    END IF;
+END//
+DELIMITER ;
 
 /*trigger column meta_value data insert into wb_ebss_part_1 columns ( email address , .. )*/
 
