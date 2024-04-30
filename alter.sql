@@ -1,0 +1,50 @@
+ALTER TABLE if0_35925202_mydb .wp_metforms
+ADD CONSTRAINT fk_meta_id
+FOREIGN KEY (meta_id)
+REFERENCES if0_35925202_wp84.wpbk_postmeta(meta_id)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
+
+-- Ensure both tables are using the InnoDB storage engine
+ALTER TABLE if0_35925202_wp84.wpbk_users ENGINE=InnoDB;
+ALTER TABLE if0_35925202_mydb.wp_ebss_part_1 ENGINE=InnoDB;
+ALTER TABLE if0_35925202_mydb.wp_ebss_part_2_1 ENGINE=InnoDB;
+ALTER TABLE if0_35925202_mydb.wp_ebss_part_2_2 ENGINE=InnoDB;
+ALTER TABLE if0_35925202_mydb.wp_ebss_part_3 ENGINE=InnoDB;
+ALTER TABLE if0_35925202_mydb.wp_ebss_part_4 ENGINE=InnoDB;
+
+-- Create foreign key constraints
+ALTER TABLE if0_35925202_mydb.wp_ebss_part_1
+ADD CONSTRAINT fk_user_id_1
+FOREIGN KEY (ID)
+REFERENCES if0_35925202_wp84.wpbk_users(ID)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
+
+ALTER TABLE if0_35925202_mydb.wp_ebss_part_2_1
+ADD CONSTRAINT fk_user_id_2_1
+FOREIGN KEY (ID)
+REFERENCES if0_35925202_wp84.wpbk_users(ID)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
+
+ALTER TABLE if0_35925202_mydb.wp_ebss_part_2_2
+ADD CONSTRAINT fk_user_id_2_2
+FOREIGN KEY (ID)
+REFERENCES if0_35925202_wp84.wpbk_users(ID)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
+
+ALTER TABLE if0_35925202_mydb.wp_ebss_part_3
+ADD CONSTRAINT fk_user_id_3
+FOREIGN KEY (ID)
+REFERENCES if0_35925202_wp84.wpbk_users(ID)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
+
+ALTER TABLE if0_35925202_mydb.wp_ebss_part_4
+ADD CONSTRAINT fk_user_id_4
+FOREIGN KEY (ID)
+REFERENCES if0_35925202_wp84.wpbk_users(ID)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
