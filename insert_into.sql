@@ -1,8 +1,8 @@
 /* PART 1*/
 
-INSERT INTO wp_ebss_part_1 (user_id, email_address, full_name, first_name, last_name, staff_ID, clientName, company_email, job_title, gender_type, work_location, department, work_section, year_service)
+INSERT INTO wp_ebss_part_1 (ID, user_email, full_name, first_name, last_name, staff_ID, clientName, company_email, job_title, gender_type, work_location, department, work_section, year_service)
 SELECT 
-   m.user_id,
+   m.ID,
    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:13:"email_address";s:22:"', -1), '";s:9:"full_name"', 1), '"', -1) AS email_address,
    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:9:"full_name";s:13:"', -1), '";s:10:"first_name"', 1), '"', -1) AS full_name,
    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:10:"first_name";s:6:"', -1), '";s:9:"last_name"', 1), '"', -1) AS first_name,
@@ -17,7 +17,7 @@ SELECT
    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:12:"work_section";s:20:"', -1), '";s:12:"year_service"', 1), '"', -1) AS work_section,
    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(m.meta_value, 's:12:"year_service";s:12:"', -1), '";s:6:"laptop"', 1), '"', -1) AS year_service
 FROM wp_metforms m
-WHERE m.user_id = 9402;
+WHERE m.ID = 9434;
 
 /* PART 2_1 */
 INSERT INTO wp_ebss_part_2_1 (user_id, laptop, standardPC, external, dockingNE, dockingE, standardMW, standardMNW, ErgomouseNW, ErgomouseW, shortkey, longkey, riserA, riserNA, BagA, BagB, BagC, mousepadA, 
